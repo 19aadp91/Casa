@@ -12,6 +12,7 @@ casa/
 │
 ├── 01_Planos_y_Documentacion/
 │   ├── planos de casa.pdf                     # Planos originales escaneados (Plantas, Estructura, Fachadas, Linderos UTM)
+│   ├── planos_casa_completo.pdf               # NUEVO PDF oficial estilo municipal con información completa de casa_completo (5 láminas)
 │   ├── prompt_arquitecto_virtual_cadcraft.md  # Instrucciones y directrices del Arquitecto Virtual
 │   └── skill_ampliaci_n_arquitectura_e_ingenier_a_civil_opencad.md # Skill especializada OpenCAD/CADCraft
 │
@@ -29,6 +30,7 @@ casa/
 │   └── casa_primer_piso.scad                  # Código paramétrico sólido para OpenSCAD
 │
 ├── 04_Scripts_Parametricos/
+│   ├── generate_pdf_planos.py                 # Generador vectorial del PDF arquitectónico oficial (5 láminas completas)
 │   ├── build_complete_project.py              # Script maestro generador DXF 2D/3D, OBJ y STL (Ezdxf + Numpy)
 │   ├── build_complete_project_respaldo.py     # Script respaldo del levantamiento original
 │   ├── build_casa_completa.py                 # Generador paramétrico base
