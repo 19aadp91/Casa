@@ -1,0 +1,23 @@
+# Binarios e instaladores pesados (>100MB límite de GitHub)
+*.exe
+*.msi
+
+# Archivos de respaldo y temporales de CAD / OpenCADStudio
+*.bak
+*.lock
+*.sv$
+*.tmp
+*~
+
+# Entornos virtuales y caché de Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+
+# Archivos de sistema y editores
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/
