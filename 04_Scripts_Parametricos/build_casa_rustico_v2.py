@@ -505,18 +505,32 @@ def build_rustico_v2_project():
     # =========================================================================
     # 7. EXPORTADORES A FORMATOS DXF, OBJ Y STL
     # =========================================================================
-    # 1. DXF 2D/3D Completo
+    # 1. DXF 2D/3D Completo (Formato AutoCAD AC1009 Estricto para máxima compatibilidad)
     dxf_lines = []
     def w(code, val):
-        dxf_lines.append(f"{code}\n{val}\n")
+        dxf_lines.append(f"{code:>3}\n{val}\n")
 
-    w(0, "SECTION"); w(2, "HEADER")
-    w(9, "$ACADVER"); w(1, "AC1015")
-    w(9, "$INSUNITS"); w(70, 6) # Metros
+    w(0, "SECTION")
+    w(2, "HEADER")
+    w(9, "$ACADVER")
+    w(1, "AC1009")
+    w(9, "$INSUNITS")
+    w(70, 6) # Metros
+    w(9, "$EXTMIN")
+    w(10, -5.0)
+    w(20, -15.0)
+    w(30, -4.0)
+    w(9, "$EXTMAX")
+    w(10, 100.0)
+    w(20, 45.0)
+    w(30, 15.0)
     w(0, "ENDSEC")
 
-    w(0, "SECTION"); w(2, "TABLES")
-    w(0, "TABLE"); w(2, "LAYER"); w(70, 15)
+    w(0, "SECTION")
+    w(2, "TABLES")
+    w(0, "TABLE")
+    w(2, "LAYER")
+    w(70, 24)
     layers_def = [
         ("0", 7), ("DEFPOINTS", 7),
         ("SOTANO_LOSA_3D", 8), ("SOTANO_MUROS_EXT_3D", 4), ("SOTANO_MUROS_INT_3D", 4), ("SOTANO_COLUMNAS_3D", 1),
@@ -528,10 +542,20 @@ def build_rustico_v2_project():
         ("TERRENO_3D", 3), ("EJES_COTAS_2D", 3)
     ]
     for lname, lcol in layers_def:
-        w(0, "LAYER"); w(2, lname); w(70, 0); w(62, lcol); w(6, "CONTINUOUS")
-    w(0, "ENDSEC"); w(0, "ENDSEC")
+        w(0, "LAYER")
+        w(2, lname)
+        w(70, 0)
+        w(62, lcol)
+        w(6, "CONTINUOUS")
+    w(0, "ENDTAB")
+    w(0, "ENDSEC")
 
-    w(0, "SECTION"); w(2, "ENTITIES")
+    w(0, "SECTION")
+    w(2, "BLOCKS")
+    w(0, "ENDSEC")
+
+    w(0, "SECTION")
+    w(2, "ENTITIES")
 
     def write_3dface(layer, color, p1, p2, p3, p4):
         w(0, "3DFACE"); w(8, layer); w(62, color)
