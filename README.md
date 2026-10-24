@@ -114,6 +114,39 @@ Diseñado e implementado bajo la **Skill de Arquitecto Especialista en Estilo R�
 
 ---
 
+## 🏔️ Proyecto Chalet Rústico Alpino V2 (`casa_rustico_v2.dxf`)
+
+Evolución del diseño rústico basada estrictamente en [`02_Modelos_CAD/casa_modificaciones.dxf`](file:///c:/Users/alvar/Documents/casa/02_Modelos_CAD/casa_modificaciones.dxf) y perfeccionada bajo la **Skill de Arquitecto Especialista en Estilo Rústico y Chalet para CAD (OpenSCAD / OpenCAD)**, respondiendo a las correcciones programáticas y formales del usuario:
+
+### 📐 Innovaciones y Características del Rediseño V2:
+1. **Supresión Total de la Chimenea:**
+   - Se elimina la chimenea de piedra en el salón y la cubierta, logrando un **Gran Salón Rústico (Great Room)** 100% diáfano, despejado y bañado por luz natural, sin obstáculos estructurales interiores.
+2. **Doble Balcón Frontal Independiente sobre Avenida 4:**
+   - **Gran Balconada Rústica Techada Corrida ($5{,}05 \times 1{,}60\text{ m}$):** Acceso directo y exclusivo desde el Gran Salón y comedor, con vigas pasantes vistas, barandilla artesanal con Cruz de San Andrés y alero voladizo protector.
+   - **Balcón Privado Independiente de la Master Suite ($3{,}55 \times 1{,}60\text{ m}$):** Acceso íntimo y privado exclusivamente desde el dormitorio principal, separado de la balconada social por una celosía de madera maciza.
+3. **Ampliación Posterior Continua hacia Volumetría 100% Rectangular ($9{,}00 \times 21{,}71\text{ m}$):**
+   - Se cierra la hendidura original ($X \in [6{,}25, 9{,}15\text{ m}], Y \in [0{,}00, 3{,}50\text{ m}]$) desde el sótano hasta el último piso:
+     - **Sótano ($Z = -2{,}55\text{ m}$):** Nueva **Cava Rústica / Taller Subterráneo** ($+9{,}6\text{ m}^2$) rodeada de muros de contención.
+     - **Planta Baja ($Z = 0{,}00\text{ m}$):** Nuevo **Despacho Comercial Privado / Archivo** ($+9{,}6\text{ m}^2$) conectado al local.
+     - **Último Piso ($Z = +3{,}00\text{ m}$):** **NUEVA Habitación 4 / Suite de Invitados / Estudio Alpino** ($3{,}80 \times 3{,}50\text{ m}$), completando 4 habitaciones completas en planta alta.
+   - **Columna 32 en $(9{,}075, 0{,}075)$:** Completa una retícula estructural modular simétrica y ortogonal de $4 \times 9$ columnas en todos los niveles.
+4. **Preservación Rigurosa:**
+   - Sótano original, muros de retención y 8 columnas de $35 \times 35\text{ cm}$ intactos.
+   - Gran salón comercial de $98\text{ m}^2$, garaje techado con $2{,}80\text{ m}$ entre ejes, muro medianero Eje 0 y baño comercial intactos.
+   - **Ambas escaleras (bajada y subida) intactas** sin alteración de huellas ni descansos.
+   - Retiro de fondo de $3{,}00\text{ m}$ y linderos perimetrales intactos.
+5. **Cubierta Alpina a Dos Aguas (38°):**
+   - Cumbrera continua limpia a $Z = +9{,}72\text{ m}$ (sin chimenea emergente), aleros voladizos de $1{,}10\text{ a }1{,}20\text{ m}$ y canecillos pasantes vistos cada $1{,}20\text{ m}$.
+
+### 📦 Archivos del Rediseño Rústico V2:
+* **Modelo 2D/3D CAD Maestro:** [`02_Modelos_CAD/casa_rustico_v2.dxf`](file:///c:/Users/alvar/Documents/casa/02_Modelos_CAD/casa_rustico_v2.dxf)
+* **Mallas 3D Poligonales:** [`03_Modelos_3D/casa_rustico_v2_3d.obj`](file:///c:/Users/alvar/Documents/casa/03_Modelos_3D/casa_rustico_v2_3d.obj) y [`03_Modelos_3D/casa_rustico_v2_3d.stl`](file:///c:/Users/alvar/Documents/casa/03_Modelos_3D/casa_rustico_v2_3d.stl) (336 sólidos constructivos independientes).
+* **Código Paramétrico OpenSCAD / OpenCAD:** [`03_Modelos_3D/casa_rustico_v2_superior.scad`](file:///c:/Users/alvar/Documents/casa/03_Modelos_3D/casa_rustico_v2_superior.scad)
+* **Script Constructor Automatizado:** [`04_Scripts_Parametricos/build_casa_rustico_v2.py`](file:///c:/Users/alvar/Documents/casa/04_Scripts_Parametricos/build_casa_rustico_v2.py)
+* **Plan Arquitectónico Aprobado:** [`plan_rediseño_rustico_v2.md`](file:///C:/Users/alvar/.gemini/antigravity/brain/de3be93c-f4e5-4835-b069-ed2b2f76d657/plan_redise%C3%B1o_rustico_v2.md)
+
+---
+
 ## 🏛️ Proyecto Villa Mediterránea (Vernácula Ibérica, Cicládica y Azotea Solárium)
 
 Diseñado e implementado bajo la **Skill de Arquitecto Especialista en Estilo Mediterráneo para CAD (OpenSCAD / OpenCAD)**. Mantiene intactos al 100% el sótano de fundación, la planta baja comercial con garaje, el contorno perimetral, la caja de escaleras y las **31 columnas fijas** de [`02_Modelos_CAD/casa_modificaciones.dxf`](file:///c:/Users/alvar/Documents/casa/02_Modelos_CAD/casa_modificaciones.dxf), concentrando la intervención arquitectónica exclusivamente en el último piso y la cubierta. Disponible en [`Proyecto_Mediterraneo/`](file:///c:/Users/alvar/Documents/casa/Proyecto_Mediterraneo/) y en la carpeta independiente [`c:\Users\alvar\Documents\casa_mediterranea`](file:///c:/Users/alvar/Documents/casa_mediterranea).
