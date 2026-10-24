@@ -134,18 +134,43 @@ def build_chalet_project():
     add_h_box(L_PB_PIEDRA, 8, 6.25, 0.00, Z_P1_FLOOR, 6.40, 3.50, H_P1)
     add_h_box(L_PB_PIEDRA, 8, 0.15, 0.00, Z_P1_FLOOR, 6.40, 0.20, H_P1)
 
-    # Muro divisorio interior que da al garaje 2.80 m libres (X: 3.10 a 3.25 m)
-    add_h_box(L_PB_INT, 7, 3.10, 0.15, Z_P1_FLOOR, 3.25, Y_AV4 - 0.30, H_P1)
+    # Muro divisorio interior que da al garaje (Eje 1 en X = 2.825 m, según casa_modificaciones.dxf)
+    add_h_box(L_PB_INT, 7, 2.75, 0.15, Z_P1_FLOOR, 2.90, Y_AV4 - 0.30, H_P1)
     # Muro posterior garaje con puerta privada
-    add_h_box(L_PB_INT, 7, 0.35, 8.80, Z_P1_FLOOR, 2.00, 8.95, H_P1)
-    add_h_box(L_PB_INT, 7, 2.90, 8.80, Z_P1_FLOOR, 3.10, 8.95, H_P1)
-    add_h_box(L_PB_INT, 7, 2.00, 8.80, 2.10, 2.90, 8.95, H_P1) # Dintel puerta privada
+    add_h_box(L_PB_INT, 7, 0.35, 8.80, Z_P1_FLOOR, 1.65, 8.95, H_P1)
+    add_h_box(L_PB_INT, 7, 1.65, 8.80, 2.10, 2.75, 8.95, H_P1) # Dintel puerta privada 0.90m
+    add_h_box(L_PB_INT, 7, 2.75, 8.80, Z_P1_FLOOR, 2.90, 8.95, H_P1)
 
     # Baño y depósito local
     add_h_box(L_PB_INT, 7, 5.85, 5.40, Z_P1_FLOOR, 8.95, 5.55, H_P1)
     add_h_box(L_PB_INT, 7, 5.85, 3.65, Z_P1_FLOOR, 6.00, 4.60, H_P1)
     add_h_box(L_PB_INT, 7, 3.25, 3.50, Z_P1_FLOOR, 4.80, 3.65, H_P1)
     add_h_box(L_PB_INT, 7, 5.65, 3.50, Z_P1_FLOOR, 6.25, 3.65, H_P1)
+
+    # Columnas Estructurales Planta Baja (Zona Comercial y Garaje) según casa_modificaciones.dxf
+    L_PB_COL = "COLUMNAS_ZONA_COMERCIAL_3D"
+    p1_cols_axes = [
+        # Eje A0 sobre Avenida 4 (Y = 21.585)
+        (0.275, 21.585), (2.825, 21.585), (5.925, 21.585), (9.075, 21.585),
+        # Eje A (Y = 18.575)
+        (0.275, 18.575), (2.825, 18.575), (5.925, 18.575), (9.075, 18.575),
+        # Eje B (Y = 16.325)
+        (0.275, 16.325), (2.825, 16.325), (5.925, 16.325),
+        # Eje C (Y = 14.625)
+        (9.075, 14.625),
+        # Eje D (Y = 12.025)
+        (0.275, 12.025), (2.825, 12.025), (5.925, 12.025), (9.075, 12.025),
+        # Eje E (Y = 8.875)
+        (0.275, 8.875),  (2.825, 8.875),  (5.925, 8.875),  (9.075, 8.875),
+        # Eje F (Y = 6.575)
+        (0.275, 6.575),  (2.825, 6.575),  (5.925, 6.575),  (9.075, 6.575),
+        # Eje G (Y = 3.575)
+        (0.275, 3.575),  (2.825, 3.575),  (5.925, 3.575),  (9.075, 3.575),
+        # Eje Posterior (Y = 0.075)
+        (0.275, 0.075),  (2.825, 0.075),  (5.925, 0.075)
+    ]
+    for cx, cy in p1_cols_axes:
+        add_h_box(L_PB_COL, 1, cx - 0.125, cy - 0.125, Z_P1_FLOOR, cx + 0.125, cy + 0.125, H_P1)
 
     # =========================================================================
     # 3. PLANTA ALTA: CUERPO LIGERO DE MADERA (CHALET ALPINO)
@@ -204,6 +229,11 @@ def build_chalet_project():
 
     # Gran Isla Central de Madera Maciza en Cocina (2.60 x 0.95 m)
     add_h_box(L_CHALET_P2, 6, 2.15, 9.80, Z_P2_FLOOR, 3.10, 12.40, Z_P2_FLOOR + 0.90)
+
+    # Columnas / Postes Estructurales Timber Frame - Último Piso (Planta Alta) según casa_modificaciones.dxf
+    L_P2_COL = "CHALET_P2_COLUMNAS_3D"
+    for cx, cy in p1_cols_axes:
+        add_h_box(L_P2_COL, 1, cx - 0.125, cy - 0.125, Z_P2_FLOOR, cx + 0.125, cy + 0.125, H_P2_MURO)
 
     # =========================================================================
     # 4. CHIMENEA RÚSTICA DOMINANTE DE PIEDRA
@@ -310,6 +340,22 @@ def build_chalet_project():
     add_h_line("2D_CUBIERTA_ALEROS", 1, x_alero_der, y_alero_nor, 0, x_alero_izq, y_alero_nor, 0)
     add_h_line("2D_CUBIERTA_ALEROS", 1, x_alero_izq, y_alero_nor, 0, x_alero_izq, y_alero_sur, 0)
     add_h_line("2D_CUBIERTA_CUMBRERA", 1, X_CUMBRERA, y_alero_sur, 0, X_CUMBRERA, y_alero_nor, 0)
+
+    # Columnas 2D (PB y Último Piso) y Ejes Estructurales según casa_modificaciones.dxf
+    for cx, cy in p1_cols_axes:
+        # Rectángulo de columna 25x25 cm en 2D
+        add_h_line("2D_COLUMNAS", 1, cx - 0.125, cy - 0.125, 0, cx + 0.125, cy - 0.125, 0)
+        add_h_line("2D_COLUMNAS", 1, cx + 0.125, cy - 0.125, 0, cx + 0.125, cy + 0.125, 0)
+        add_h_line("2D_COLUMNAS", 1, cx + 0.125, cy + 0.125, 0, cx - 0.125, cy + 0.125, 0)
+        add_h_line("2D_COLUMNAS", 1, cx - 0.125, cy + 0.125, 0, cx - 0.125, cy - 0.125, 0)
+
+    # Líneas de ejes estructurales en 2D
+    ejes_x_coords = [0.275, 2.825, 5.925, 9.075]
+    for ex in ejes_x_coords:
+        add_h_line("2D_EJES_ESTRUCTURALES", 4, ex, -0.80, 0, ex, Y_AV4 + 0.80, 0)
+    ejes_y_coords = [21.585, 18.575, 16.325, 14.625, 12.025, 8.875, 6.575, 3.575, 0.075]
+    for ey in ejes_y_coords:
+        add_h_line("2D_EJES_ESTRUCTURALES", 4, 0.00, ey, 0, 9.30, ey, 0)
 
     # Rótulos técnicos 2D
     add_h_text("2D_ROTULOS", 2, "P2: GRAN SALÓN CHALET CON CHIMENEA (DOBLE ALTURA)", 3.40, 16.50, 0.05)

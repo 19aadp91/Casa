@@ -315,10 +315,20 @@ def build_sheet_1(pdf):
     draw_door_swing(ax_pb, 3.25, 3.65, 0.85, 180, 90)
     ax_pb.text(4.50, 1.85, "Depósito / Logística\n2,95 x 3,35 m", fontsize=6.8, ha='center', va='center', fontweight='bold')
 
-    # Columnas Eje 1 y Eje 2
-    for cx in [0.225, 3.175, 6.275, 9.075]:
-        for cy in [0.075, 3.575, 6.575, 9.575, 12.575, 15.575, 18.575, 21.635]:
-            draw_col_hatch(ax_pb, cx, cy, size=0.25)
+    # Columnas Estructurales Planta Baja (Zona Comercial y Garaje) según casa_modificaciones.dxf
+    cols_p1_p2 = [
+        (0.275, 21.585), (2.825, 21.585), (5.925, 21.585), (9.075, 21.585),
+        (0.275, 18.575), (2.825, 18.575), (5.925, 18.575), (9.075, 18.575),
+        (0.275, 16.325), (2.825, 16.325), (5.925, 16.325),
+        (9.075, 14.625),
+        (0.275, 12.025), (2.825, 12.025), (5.925, 12.025), (9.075, 12.025),
+        (0.275, 8.875),  (2.825, 8.875),  (5.925, 8.875),  (9.075, 8.875),
+        (0.275, 6.575),  (2.825, 6.575),  (5.925, 6.575),  (9.075, 6.575),
+        (0.275, 3.575),  (2.825, 3.575),  (5.925, 3.575),  (9.075, 3.575),
+        (0.275, 0.075),  (2.825, 0.075),  (5.925, 0.075)
+    ]
+    for cx, cy in cols_p1_p2:
+        draw_col_hatch(ax_pb, cx, cy, size=0.25)
 
     # Cotas Planta Baja
     draw_dim_h(ax_pb, 0.30, 3.10, 22.8, "2,80 (Garaje)", offset=0.0)
@@ -489,10 +499,20 @@ def build_sheet_2(pdf):
     # Muro Lateral Derecho Eje 3 (X = 9.00 a 9.15 m)
     draw_rect_wall(ax, 9.00, 3.50, 9.15, 21.71, color=COLOR_WOOD_WALL)
 
-    # Columnas estructurales de madera vista (Postes de roble)
-    for cx in [0.25, 4.875, 9.075]:
-        for cy in [3.575, 6.875, 11.925, 16.475, 21.635]:
-            draw_col_hatch(ax, cx, cy, size=0.25, is_wood=True)
+    # Columnas estructurales y postes de madera maciza (Timber Frame) según casa_modificaciones.dxf
+    cols_p1_p2 = [
+        (0.275, 21.585), (2.825, 21.585), (5.925, 21.585), (9.075, 21.585),
+        (0.275, 18.575), (2.825, 18.575), (5.925, 18.575), (9.075, 18.575),
+        (0.275, 16.325), (2.825, 16.325), (5.925, 16.325),
+        (9.075, 14.625),
+        (0.275, 12.025), (2.825, 12.025), (5.925, 12.025), (9.075, 12.025),
+        (0.275, 8.875),  (2.825, 8.875),  (5.925, 8.875),  (9.075, 8.875),
+        (0.275, 6.575),  (2.825, 6.575),  (5.925, 6.575),  (9.075, 6.575),
+        (0.275, 3.575),  (2.825, 3.575),  (5.925, 3.575),  (9.075, 3.575),
+        (0.275, 0.075),  (2.825, 0.075),  (5.925, 0.075)
+    ]
+    for cx, cy in cols_p1_p2:
+        draw_col_hatch(ax, cx, cy, size=0.25, is_wood=True)
 
     # Cotas Planta Alta
     draw_dim_h(ax, 0.15, 9.15, 24.3, "9,00 m (Ancho Total Frente Balcón)", offset=0.0)
@@ -525,20 +545,53 @@ def build_sheet_3(pdf):
     ax.plot([0.0, 9.0], [-1.65, -1.65], color='black', lw=1.2)
     draw_north_arrow(ax, 10.5, 21.0, size=1.5)
 
-    # 1. Ejes Estructurales Transversales (Ejes 0, 1, 2, 3)
-    ejes_x = [(0.225, 'A'), (3.175, 'B'), (6.275, 'C'), (9.075, 'D')]
+    # 1. Ejes Estructurales Transversales (Ejes 0, 1, 2, 3) según casa_modificaciones.dxf
+    ejes_x = [(0.275, '0'), (2.825, '1'), (5.925, '2'), (9.075, '3')]
     for ex, label in ejes_x:
-        ax.plot([ex, ex], [-1.0, 24.0], color=COLOR_AXIS_CYAN, lw=0.7, linestyle='-.')
-        ax.add_patch(Circle((ex, 24.4), 0.35, facecolor='white', edgecolor=COLOR_AXIS_CYAN, lw=0.9))
-        ax.text(ex, 24.4, label, fontsize=8.0, fontweight='bold', color=COLOR_AXIS_CYAN, ha='center', va='center')
+        ax.plot([ex, ex], [-1.0, 24.0], color=COLOR_AXIS_CYAN, lw=0.7, linestyle='-.', zorder=2)
+        ax.add_patch(Circle((ex, 24.4), 0.35, facecolor='white', edgecolor=COLOR_AXIS_CYAN, lw=0.9, zorder=5))
+        ax.text(ex, 24.4, label, fontsize=8.0, fontweight='bold', color=COLOR_AXIS_CYAN, ha='center', va='center', zorder=6)
 
-    # Ejes Estructurales Longitudinales (Ejes 1 a 8)
-    ejes_y = [(0.075, '1'), (3.575, '2'), (6.875, '3'), (11.925, '4'), 
-              (16.475, '5'), (18.575, '6'), (21.635, '7')]
+    # Ejes Estructurales Longitudinales (Ejes A0 a G y Sótano) según casa_modificaciones.dxf
+    ejes_y = [
+        (21.585, 'A0'), (18.575, 'A'), (16.325, 'B'), (14.625, 'C'),
+        (12.025, 'D'), (8.875, 'E'), (6.575, 'F'), (3.575, 'G'), (0.075, 'SOT')
+    ]
     for ey, label in ejes_y:
-        ax.plot([-1.5, 10.5], [ey, ey], color=COLOR_AXIS_CYAN, lw=0.7, linestyle='-.')
-        ax.add_patch(Circle((-1.9, ey), 0.35, facecolor='white', edgecolor=COLOR_AXIS_CYAN, lw=0.9))
-        ax.text(-1.9, ey, label, fontsize=8.0, fontweight='bold', color=COLOR_AXIS_CYAN, ha='center', va='center')
+        ax.plot([-1.5, 10.5], [ey, ey], color=COLOR_AXIS_CYAN, lw=0.7, linestyle='-.', zorder=2)
+        ax.add_patch(Circle((-1.9, ey), 0.35, facecolor='white', edgecolor=COLOR_AXIS_CYAN, lw=0.9, zorder=5))
+        ax.text(-1.9, ey, label, fontsize=7.5, fontweight='bold', color=COLOR_AXIS_CYAN, ha='center', va='center', zorder=6)
+
+    # Líneas de conexión de retícula estructural
+    for i in range(len(ejes_x)-1):
+        x_a = ejes_x[i][0]
+        x_b = ejes_x[i+1][0]
+        for ey, _ in ejes_y:
+            ax.plot([x_a, x_b], [ey, ey], color='#D5D5D5', lw=0.8, zorder=1)
+
+    # 2. COLUMNAS ESTRUCTURALES P.B. Y P.A. (31 unidades de 25x25 cm según casa_modificaciones.dxf)
+    cols_p1_p2 = [
+        (0.275, 21.585), (2.825, 21.585), (5.925, 21.585), (9.075, 21.585),
+        (0.275, 18.575), (2.825, 18.575), (5.925, 18.575), (9.075, 18.575),
+        (0.275, 16.325), (2.825, 16.325), (5.925, 16.325),
+        (9.075, 14.625),
+        (0.275, 12.025), (2.825, 12.025), (5.925, 12.025), (9.075, 12.025),
+        (0.275, 8.875),  (2.825, 8.875),  (5.925, 8.875),  (9.075, 8.875),
+        (0.275, 6.575),  (2.825, 6.575),  (5.925, 6.575),  (9.075, 6.575),
+        (0.275, 3.575),  (2.825, 3.575),  (5.925, 3.575),  (9.075, 3.575),
+        (0.275, 0.075),  (2.825, 0.075),  (5.925, 0.075)
+    ]
+    for cx, cy in cols_p1_p2:
+        draw_col_hatch(ax, cx, cy, size=0.25)
+
+    # 3. COLUMNAS DE SÓTANO (35x35 cm)
+    sot_cols = [
+        (0.275, 6.575), (2.825, 6.575), (5.925, 6.575), (9.075, 6.575),
+        (0.275, 3.575), (2.825, 3.575), (5.925, 3.575), (9.075, 3.575),
+    ]
+    for cx, cy in sot_cols:
+        ax.add_patch(Rectangle((cx - 0.175, cy - 0.175), 0.35, 0.35, 
+                               fill=False, edgecolor='#0000FF', lw=1.2, zorder=7))
 
     # 2. Cumbrera Central del Techo Alpino a Dos Aguas (X = 4.65 m, Z = +9.72 m)
     ax.plot([4.65, 4.65], [-1.0, 23.5], color='#D50000', lw=2.2, linestyle='-', zorder=5)

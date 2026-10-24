@@ -75,8 +75,8 @@ module zocalo_piedra() {
             caja_coords(6.40 - GROSOR_MURO_PIEDRA, 0, 0, 6.40, 3.50, ALTURA_PB);
             caja_coords(6.40, 3.50, 0, ANCHO_CASA, 3.50 + GROSOR_MURO_PIEDRA, ALTURA_PB);
 
-            // Muro divisorio estructural entre Garaje (2.80 m libres) y Local Comercial
-            caja_coords(3.10, 0, 0, 3.25, LARGO_CASA - GROSOR_MURO_PIEDRA, ALTURA_PB);
+            // Muro divisorio estructural entre Garaje y Local Comercial (Eje 1 en X = 2.825 m)
+            caja_coords(2.75, 0, 0, 2.90, LARGO_CASA - GROSOR_MURO_PIEDRA, ALTURA_PB);
         }
 
         // --- VANOS Y HUECOS DE PLANTA BAJA ---
@@ -403,6 +403,58 @@ module ventana_rustica_con_shutters(ancho, alto, tiene_shutters=true) {
 }
 
 // ==============================================================================
+// 8. COLUMNAS ESTRUCTURALES PLANTA BAJA (ZONA COMERCIAL Y GARAJE)
+// Tomando en cuenta casa_modificaciones.dxf (25x25 cm, Ejes 0, 1, 2, 3 y A0 a G)
+// ==============================================================================
+module columnas_zona_comercial() {
+    color([0.80, 0.20, 0.20]) // Rojo normativo estructural / concreto armado
+    union() {
+        // Red modular de columnas 25x25 cm según casa_modificaciones.dxf
+        cols_pb = [
+            [0.275, 21.585], [2.825, 21.585], [5.925, 21.585], [9.075, 21.585], // Eje A0 (Av. 4)
+            [0.275, 18.575], [2.825, 18.575], [5.925, 18.575], [9.075, 18.575], // Eje A
+            [0.275, 16.325], [2.825, 16.325], [5.925, 16.325],                  // Eje B
+            [9.075, 14.625],                                                      // Eje C
+            [0.275, 12.025], [2.825, 12.025], [5.925, 12.025], [9.075, 12.025], // Eje D
+            [0.275, 8.875],  [2.825, 8.875],  [5.925, 8.875],  [9.075, 8.875],  // Eje E
+            [0.275, 6.575],  [2.825, 6.575],  [5.925, 6.575],  [9.075, 6.575],  // Eje F
+            [0.275, 3.575],  [2.825, 3.575],  [5.925, 3.575],  [9.075, 3.575],  // Eje G
+            [0.275, 0.075],  [2.825, 0.075],  [5.925, 0.075]                    // Eje Posterior
+        ];
+        for (pt = cols_pb) {
+            caja_coords(pt[0] - 0.125, pt[1] - 0.125, 0,
+                        pt[0] + 0.125, pt[1] + 0.125, ALTURA_PB);
+        }
+    }
+}
+
+// ==============================================================================
+// 9. COLUMNAS ESTRUCTURALES Y POSTES TIMBER FRAME - ÚLTIMO PISO (PLANTA ALTA)
+// Tomando en cuenta casa_modificaciones.dxf (25x25 cm, Z = 3.00 a 5.85 m)
+// ==============================================================================
+module columnas_ultimo_piso() {
+    color([0.50, 0.30, 0.18]) // Tono madera maciza estructural (Roble / Timber Frame)
+    union() {
+        // Prolongación vertical de las columnas en el piso superior hasta solera
+        cols_p2 = [
+            [0.275, 21.585], [2.825, 21.585], [5.925, 21.585], [9.075, 21.585], // Eje A0 (Av. 4)
+            [0.275, 18.575], [2.825, 18.575], [5.925, 18.575], [9.075, 18.575], // Eje A
+            [0.275, 16.325], [2.825, 16.325], [5.925, 16.325],                  // Eje B
+            [9.075, 14.625],                                                      // Eje C
+            [0.275, 12.025], [2.825, 12.025], [5.925, 12.025], [9.075, 12.025], // Eje D
+            [0.275, 8.875],  [2.825, 8.875],  [5.925, 8.875],  [9.075, 8.875],  // Eje E
+            [0.275, 6.575],  [2.825, 6.575],  [5.925, 6.575],  [9.075, 6.575],  // Eje F
+            [0.275, 3.575],  [2.825, 3.575],  [5.925, 3.575],  [9.075, 3.575],  // Eje G
+            [0.275, 0.075],  [2.825, 0.075],  [5.925, 0.075]                    // Eje Posterior
+        ];
+        for (pt = cols_p2) {
+            caja_coords(pt[0] - 0.125, pt[1] - 0.125, ALTURA_PB,
+                        pt[0] + 0.125, pt[1] + 0.125, ALTURA_PB + ALTURA_P2);
+        }
+    }
+}
+
+// ==============================================================================
 // ENSAMBLAJE MAESTRO DEL MODELO COMPLETO
 // ==============================================================================
 module casa_chalet_completa() {
@@ -426,6 +478,12 @@ module casa_chalet_completa() {
 
     // 7. Cubierta alpina a dos aguas con aleros pronunciados
     cubierta_alpina();
+
+    // 8. Columnas estructurales de Planta Baja (Zona Comercial y Garaje)
+    columnas_zona_comercial();
+
+    // 9. Columnas estructurales del Último Piso (Planta Alta Chalet Timber Frame)
+    columnas_ultimo_piso();
 }
 
 // Invocar modelo completo para renderizado
