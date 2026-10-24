@@ -78,3 +78,36 @@ casa/
 - **Área Social Abierta:** Sala - Comedor de concepto abierto con vistas a la Avenida 4.
 - **Cocina Integral:** Con isla central de $2{,}60\text{ m} \times 0{,}95\text{ m}$.
 - **Lavadero y Terraza Posterior:** Vista hacia el patio posterior y la serranía.
+
+---
+
+## 🏔️ Proyecto Chalet Rústico y Alpino (Timber Frame & Zócalo de Piedra)
+
+Diseñado e implementado bajo la **Skill de Arquitecto Especialista en Estilo Rústico y Chalet para CAD (OpenSCAD / OpenCAD)**. Mantiene intactos los modelos base (`casa_modificaciones.dxf` y `casa_completo.dxf`) y crea una propuesta arquitectónica de alta montaña totalmente independiente en [`Proyecto_Chalet_Rustico/`](file:///c:/Users/alvar/Documents/casa/Proyecto_Chalet_Rustico/) y [`c:\Users\alvar\Documents\casa_chalet`](file:///c:/Users/alvar/Documents/casa_chalet).
+
+### 📐 Características Principales del Chalet:
+1. **Garaje Confortable con Apertura Cómoda de Puertas:**
+   - Crujía de garaje ampliada a **$2{,}80\text{ m}$ libres** ($X = 0{,}30\text{ a }3{,}10\text{ m}$).
+   - Holgura lateral de **$0{,}85\text{ m}$** que permite la apertura total de las puertas del conductor sin riesgo de impacto.
+2. **Zócalo de Mampostería Rústica en Planta Baja:**
+   - Muros gruesos con acabado de piedra natural y esquisto de $0{,}35\text{ m}$ de espesor.
+   - Local comercial diáfano de **$91{,}00\text{ m}^2$** con vitrinas rústicas con parteluces de roble.
+3. **Cuerpo Superior Ligero (Timber Frame / Machihembrado):**
+   - Estructura entramada de madera a la vista en segundo piso.
+   - **Great Room (Gran Salón):** Techo catedral con vigas vistas a doble altura y **Chimenea Monumental de Piedra**.
+   - **Cocina Rústica de Montaña:** Con isla central de roble macizo ($2{,}60 \times 0{,}95\text{ m}$).
+   - **Master Suite Alpina:** Con baño privado de piedra, vestidor y salida directa a la balconada.
+   - **Gran Balcón Corrido Alpino ($9{,}00 \times 1{,}60\text{ m}$):** Voladizo frontal hacia la Avenida 4 sostenido por vigas pasantes y barandilla artesanal con **Cruces de San Andrés**.
+   - **Habitaciones 2 y 3:** Techos inclinados con vigas vistas y contraventanas exteriores (*shutters*).
+4. **Cubierta Alpina a Dos Aguas (Gable Roof 38° / 78%):**
+   - Altura de cumbrera alcanzando los **$Z = +9{,}72\text{ m}$**.
+   - **Aleros generosos:** Voladizos de $1{,}10\text{ m}$ laterales y $1{,}20\text{ m}$ frontales.
+   - **Canecillos y pares expuestos:** Vigas pasantes (*rafter tails*) a la vista cada $0{,}60\text{ m}$.
+   - Remate de chimenea de piedra con losa de pizarra protectora en cubierta.
+
+### 📦 Archivos del Proyecto Chalet:
+* **Planos Municipales en PDF (5 Láminas Tabloid 11x17 in):** [`Proyecto_Chalet_Rustico/01_Planos_y_Documentacion/planos_casa_chalet.pdf`](file:///c:/Users/alvar/Documents/casa/Proyecto_Chalet_Rustico/01_Planos_y_Documentacion/planos_casa_chalet.pdf)
+* **Código Paramétrico OpenSCAD / OpenCAD:** [`Proyecto_Chalet_Rustico/03_Modelos_3D/casa_chalet_superior.scad`](file:///c:/Users/alvar/Documents/casa/Proyecto_Chalet_Rustico/03_Modelos_3D/casa_chalet_superior.scad)
+* **Modelo 2D/3D CAD:** [`Proyecto_Chalet_Rustico/02_Modelos_CAD/casa_chalet_rustico.dxf`](file:///c:/Users/alvar/Documents/casa/Proyecto_Chalet_Rustico/02_Modelos_CAD/casa_chalet_rustico.dxf)
+* **Mallas 3D Poligonales:** [`Proyecto_Chalet_Rustico/03_Modelos_3D/casa_chalet_3d.obj`](file:///c:/Users/alvar/Documents/casa/Proyecto_Chalet_Rustico/03_Modelos_3D/casa_chalet_3d.obj) y [`casa_chalet_3d.stl`](file:///c:/Users/alvar/Documents/casa/Proyecto_Chalet_Rustico/03_Modelos_3D/casa_chalet_3d.stl) (147 sólidos independientes).
+* **Carpeta Independiente Standalone:** [`c:\Users\alvar\Documents\casa_chalet`](file:///c:/Users/alvar/Documents/casa_chalet)
