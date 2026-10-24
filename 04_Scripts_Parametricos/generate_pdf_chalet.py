@@ -269,26 +269,24 @@ def build_sheet_1(pdf):
     draw_window_chalet(ax_pb, 6.20, 21.56, 8.85, 21.71, cuarterones=4)
     draw_rect_wall(ax_pb, 8.85, 21.56, 9.15, 21.71, color=COLOR_STONE_FILL)
 
-    # 3. Muro Medianero Eje 1 (X = 3.10 m) - Garaje Ampliado a 2,80 m libres!
-    draw_rect_wall(ax_pb, 3.10, 5.65, 3.25, 21.71, color=COLOR_STONE_FILL)
-    ax_pb.text(1.70, 13.5, "GARAJE TECHADO DOBLE\nAncho Libre: 2,80 m\n(Apertura Cómoda de Puertas)", 
-               fontsize=7.5, ha='center', va='center', fontweight='bold', color='#1B5E20')
+    # 3. Muro Medianero Eje 1 (X: 2.75 a 2.90 m, centro 2.825 m) según casa_modificaciones.dxf
+    draw_rect_wall(ax_pb, 2.75, 0.15, 2.90, 21.56, color=COLOR_STONE_FILL)
+    ax_pb.text(1.52, 13.5, "GARAJE TECHADO DOBLE\n(2,45 x 12,76 m)\nAcceso Privado a Escalera", 
+               fontsize=7.2, ha='center', va='center', fontweight='bold', color='#1B5E20')
     
-    # Silueta de coche y radio de giro de puerta
-    ax_pb.add_patch(Rectangle((0.70, 7.50), 1.75, 4.40, facecolor='#E8F5E9', edgecolor='#2E7D32', lw=0.8, linestyle='--'))
-    ax_pb.text(1.57, 9.70, "VEHÍCULO 1 (Sedán / SUV)\nAncho 1,80 m", fontsize=5.8, ha='center', va='center', color='#2E7D32')
-    ax_pb.plot([0.70, 0.70 - 0.35], [9.20, 9.70], color='#2E7D32', lw=0.8) # Puerta abierta
-    ax_pb.text(0.35, 9.70, "Puerta\n0,85m holgura", fontsize=5.0, ha='center', color='#2E7D32')
+    # Silueta de vehículos
+    ax_pb.add_patch(Rectangle((0.60, 7.50), 1.80, 4.40, facecolor='#E8F5E9', edgecolor='#2E7D32', lw=0.8, linestyle='--'))
+    ax_pb.text(1.50, 9.70, "VEHÍCULO 1 (Sedán)\nAncho 1,80 m", fontsize=5.8, ha='center', va='center', color='#2E7D32')
 
-    ax_pb.add_patch(Rectangle((0.70, 14.50), 1.75, 4.40, facecolor='#E8F5E9', edgecolor='#2E7D32', lw=0.8, linestyle='--'))
-    ax_pb.text(1.57, 16.70, "VEHÍCULO 2", fontsize=5.8, ha='center', va='center', color='#2E7D32')
+    ax_pb.add_patch(Rectangle((0.60, 14.50), 1.80, 4.40, facecolor='#E8F5E9', edgecolor='#2E7D32', lw=0.8, linestyle='--'))
+    ax_pb.text(1.50, 16.70, "VEHÍCULO 2", fontsize=5.8, ha='center', va='center', color='#2E7D32')
 
     # Puerta privada al fondo del garaje
-    draw_rect_wall(ax_pb, 3.10, 4.75, 3.25, 5.65, color=COLOR_STONE_FILL)
-    draw_door_swing(ax_pb, 3.10, 4.75, 0.90, 0, 90)
+    draw_rect_wall(ax_pb, 0.30, 8.80, 2.75, 8.95, color=COLOR_STONE_FILL)
+    draw_door_swing(ax_pb, 1.65, 8.80, 0.90, 0, 90)
 
-    # Gran Salón Comercial (Zócalo Mampostería)
-    ax_pb.text(6.15, 13.5, "GRAN LOCAL COMERCIAL RÚSTICO\nÁrea Libre: 91,00 m² (5,75 x 16,00 m)\nAcabado de Muros: Mampostería de Piedra y Cantería", 
+    # Gran Salón Comercial (100% idéntico a casa_modificaciones.dxf)
+    ax_pb.text(6.00, 13.5, "GRAN LOCAL COMERCIAL (ZÓCALO RÚSTICO)\nÁrea Libre: 98,00 m² (6,10 x 16,06 m)\nAcabado de Muros: Mampostería de Piedra Natural", 
                fontsize=7.5, ha='center', va='center', fontweight='bold', color='#37474F')
 
     # Muro Lateral Derecho Eje 3 (X = 9.00 a 9.15 m)
@@ -311,9 +309,15 @@ def build_sheet_1(pdf):
 
     # Depósito / Oficina de Planta Baja
     draw_rect_wall(ax_pb, 0.15, 0.00, 6.20, 0.15, color=COLOR_STONE_FILL)
-    draw_rect_wall(ax_pb, 0.15, 3.50, 3.10, 3.65, color=COLOR_STONE_FILL)
-    draw_door_swing(ax_pb, 3.25, 3.65, 0.85, 180, 90)
-    ax_pb.text(4.50, 1.85, "Depósito / Logística\n2,95 x 3,35 m", fontsize=6.8, ha='center', va='center', fontweight='bold')
+    draw_rect_wall(ax_pb, 0.15, 3.50, 2.75, 3.65, color=COLOR_STONE_FILL)
+    draw_door_swing(ax_pb, 2.90, 3.65, 0.85, 180, 90)
+    ax_pb.text(4.50, 1.85, "Depósito / Logística\n3,35 x 3,35 m", fontsize=6.8, ha='center', va='center', fontweight='bold')
+
+    # Cotas Planta Baja
+    draw_dim_h(ax_pb, 0.30, 2.75, 22.8, "2,45 (Garaje)", offset=0.0)
+    draw_dim_h(ax_pb, 2.90, 9.00, 22.8, "6,10 (Local)", offset=0.0)
+    draw_dim_h(ax_pb, 0.15, 9.15, 23.6, "9,00 (Total Frente)", offset=0.0)
+    draw_dim_v(ax_pb, -0.6, 0.00, 21.71, "21,71 m", offset=0.0)
 
     # Columnas Estructurales Planta Baja (Zona Comercial y Garaje) según casa_modificaciones.dxf
     cols_p1_p2 = [
