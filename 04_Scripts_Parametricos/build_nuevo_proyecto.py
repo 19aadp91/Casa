@@ -531,32 +531,216 @@ def build_nuevo_proyecto():
     ])
 
     # --- MUROS INTERIORES PLANTA BAJA ---
-    # Garaje de 3,00 m libres (Opción A) + escaleras intactas
-    add_house_box(L_P1_INT, 7, 2.75, 0.15, Z_P1_FLOOR, 2.90, 8.80, H_P1)
-    add_house_box(L_P1_INT, 7, X_GAR_RIGHT_IN, 8.95, Z_P1_FLOOR, X_GAR_WALL_OUT, Y_AV4 - 0.15, H_P1)
-    add_wall_with_openings_x(L_P1_INT, 7, 0.30, X_GAR_WALL_OUT, 8.80, 8.95, Z_P1_FLOOR, H_P1, [
-        (1.65, 2.55, 0.00, H_DOOR),
-    ])
-    add_house_box(L_P1_INT, 7, 1.40, 4.40, Z_P1_FLOOR, 1.55, 7.35, H_P1)
-    add_wall_with_openings_x(L_P1_INT, 7, 0.30, 2.75, 4.25, 4.40, Z_P1_FLOOR, H_P1, [
-        (1.65, 2.45, 0.00, H_DOOR),
-    ])
-    add_wall_with_openings_x(L_P1_INT, 7, 0.30, 2.75, 1.65, 1.80, Z_P1_FLOOR, H_P1, [
-        (0.95, 2.05, 0.00, H_DOOR),
-    ])
+    # Garaje de 3,00 m libres con ACCESO DIRECTO Y ABIERTO A AMBAS ESCALERAS (sin muro que bloquee X = 0.30..2.75 m)
+    # Muro divisorio escaleras / salón comercial (Y: 3.50..8.80 m, X: 2.75..2.90 m)
+    add_house_box(L_P1_INT, 7, 2.75, 3.50, Z_P1_FLOOR, 2.90, 8.80, H_P1)
+    # Muro divisorio garaje / salón comercial (Y: 8.80..21.56 m, X: 3.30..3.45 m) + quiebre de cierre en X: 2.75..3.45
+    add_house_box(L_P1_INT, 7, X_GAR_RIGHT_IN, 8.80, Z_P1_FLOOR, X_GAR_WALL_OUT, Y_AV4 - 0.15, H_P1)
+    add_house_box(L_P1_INT, 7, 2.75, 8.80, Z_P1_FLOOR, X_GAR_WALL_OUT, 8.95, H_P1)  # Cierra quiebre local dejando X=0.30..2.75 100% ABIERTO a escaleras
+    add_house_box(L_P1_INT, 7, 1.40, 4.40, Z_P1_FLOOR, 1.55, 7.35, H_P1)  # Muro entre escalera sótano y escalera P2
+    add_house_box(L_P1_INT, 7, 0.30, 4.25, Z_P1_FLOOR, 1.40, 4.40, H_P1)  # Cierre ciego sur de escalera sótano (aísla almacén)
+    add_house_box(L_P1_INT, 7, 1.40, 5.80, Z_P1_FLOOR, 2.75, 5.95, 1.07)  # Cierre ciego bajo escalera P2 (aísla almacén)
 
-    # Baño Local intacto + Depósito conectado a la NUEVA Oficina Privada de Gerencia (X: 6.40..9.00, Y: 0.15..3.50)
+    # Baño Comercial intacto (X: 5.85..9.00, Y: 3.50..5.55) + GRAN ALMACÉN UNIFICADO DE PARED A PARED (X: 0.30..9.00, Y: 0.15..3.50)
     add_house_box(L_P1_INT, 7, 5.85, 5.40, Z_P1_FLOOR, 9.00, 5.55, H_P1)
     add_wall_with_openings_y(L_P1_INT, 7, 5.85, 6.00, 3.65, 5.40, Z_P1_FLOOR, H_P1, [
         (3.95, 4.75, 0.00, H_DOOR),
     ])
-    add_house_box(L_P1_INT, 7, 6.00, 3.50, Z_P1_FLOOR, 9.00, 3.65, H_P1)  # Separa Baño Local de Oficina Gerencia
-    add_wall_with_openings_x(L_P1_INT, 7, 2.90, 6.25, 3.50, 3.65, Z_P1_FLOOR, H_P1, [
-        (4.05, 4.90, 0.00, H_DOOR),
+    # Muro Norte del Gran Almacén Unificado (X: 2.90..9.00, Y: 3.50..3.65) con Puerta Doble de Carga (X: 4.00..5.20 m)
+    add_wall_with_openings_x(L_P1_INT, 7, 2.90, 9.00, 3.50, 3.65, Z_P1_FLOOR, H_P1, [
+        (4.00, 5.20, 0.00, H_DOOR),  # ÚNICO ACCESO (PUERTA DOBLE DE CARGA 1,20m) AL GRAN ALMACÉN DESDE LA FRUTERÍA
     ])
-    add_wall_with_openings_y(L_P1_INT, 7, 6.25, 6.40, 0.15, 3.50, Z_P1_FLOOR, H_P1, [
-        (1.30, 2.20, 0.00, H_DOOR),  # Puerta hacia la nueva Oficina Privada de Gerencia
-    ])
+
+    # =========================================================================
+    # 2.B ARQUITECTURA CHALET RÚSTICO: FRUTERÍA Y VERDULERÍA + ESTACIONAMIENTO FLUIDO
+    # =========================================================================
+    L_PB_TIMBER   = "PB_TIMBER_FRAME_3D"
+    L_PB_COM_FURN = "PB_MOBILIARIO_COMERCIAL_3D"
+    L_PB_GAR_FURN = "PB_MOBILIARIO_GARAJE_3D"
+    L_PB_ADM_FURN = "PB_MOBILIARIO_OFICINA_3D"
+
+    # --- 1. ACABADOS PÉTREOS, VIGAS Y COLUMNAS CON ISLAS DE FRUTAS (PB_ZOCALO_PIEDRA_3D y PB_TIMBER_FRAME_3D) ---
+    # A. Zócalo protector de piedra laja en garaje sobre muro oeste (X: 0.30..0.36, Y: 7.40..21.56 m, H = 1.05 m)
+    add_house_box(L_ZOCALO, 8, 0.30, 7.40, Z_P1_FLOOR, 0.36, Y_AV4 - 0.15, 1.05)
+
+    # B. Vigas Maestras Rústicas de Techo (Z = 2.65..2.85 m, peralte 20 cm) y Pórtico Abierto a Escaleras
+    add_house_box(L_PB_TIMBER, 34, 5.82, 5.55, 2.65, 6.03, Y_AV4 - 0.15, 2.85)  # Viga longitudinal Eje 2
+    for vy in [18.575, 16.325, 12.025, 8.875]:
+        add_house_box(L_PB_TIMBER, 34, X_GAR_WALL_OUT, vy - 0.105, 2.65, 8.95, vy + 0.105, 2.85)
+    for vy_g in [18.575, 16.325, 12.025, 8.875]:
+        add_house_box(L_PB_TIMBER, 34, 0.30, vy_g - 0.105, 2.65, X_GAR_RIGHT_IN, vy_g + 0.105, 2.85)
+    # Viga dintel de madera enmarcando el paso abierto de 2,45 m del Garaje a las Escaleras (Y = 8.80..8.95, Z = 2.45..2.65)
+    add_house_box(L_PB_TIMBER, 34, 0.30, 8.80, 2.45, 2.75, 8.95, 2.65)
+
+    # C. Marquesina Rústica de Madera en Fachada Avenida 4 (Y = 21.55..21.71 m, Z = 2.42..2.70 m)
+    add_house_box(L_PB_TIMBER, 34, 3.55, Y_AV4 - 0.16, 2.42, 8.90, Y_AV4, 2.52)  # Viga cornisa
+    add_house_box(L_PB_TIMBER, 30, 3.55, Y_AV4 - 0.18, 2.52, 8.90, Y_AV4, 2.70)  # Faldón tejas pizarra
+    for mx_c in [3.65, 5.75, 6.20, 8.80]:
+        add_house_box(L_PB_TIMBER, 34, mx_c - 0.08, Y_AV4 - 0.18, 2.25, mx_c + 0.08, Y_AV4 - 0.02, 2.42)
+
+    # --- 2. ESTACIONAMIENTO FLUIDO SIN TOPES Y PORTÓN CORREDIZO SOBRE RIEL LATERAL (PB_MOBILIARIO_GARAJE_3D) ---
+    # A. Portón Vehicular Corredizo-Articulado sobre Riel Curvo Lateral a 90° (Alojado en bolsillo derecho X: 3.16..3.28 m)
+    # 1. Riel superior de hierro forjado negro con curva a 90° (Z: 2.35..2.42 m)
+    add_house_box(L_PB_GAR_FURN, 8, 0.40, Y_AV4 - 0.22, 2.35, 3.26, Y_AV4 - 0.14, 2.42)  # Riel dintel frontal
+    add_house_box(L_PB_GAR_FURN, 8, 2.96, 21.20, 2.35, 3.26, Y_AV4 - 0.14, 2.42)         # Curva 90° detrás de Col. A0
+    add_house_box(L_PB_GAR_FURN, 8, 3.18, 18.90, 2.35, 3.28, 21.20, 2.42)                # Riel lateral muro derecho
+    # 2. Guía inferior embutida a ras de suelo (Z: 0.00..0.01 m)
+    add_house_box(L_PB_GAR_FURN, 8, 3.18, 18.90, 0.00, 3.26, Y_AV4 - 0.16, 0.01)
+    # 3. Las 4 Hojas Articuladas de Madera y Forja dobladas/estacionadas en el bolsillo lateral derecho (X: 3.16..3.28, Y: 19.00..21.36 m)
+    for g_idx, (gy1, gy2) in enumerate([(19.00, 19.56), (19.59, 20.15), (20.18, 20.74), (20.77, 21.33)]):
+        add_house_box(L_PB_GAR_FURN, 34, 3.16, gy1, 0.03, 3.26, gy2, 2.34)               # Bastidor hoja madera
+        add_house_box(L_PB_GAR_FURN, 30, 3.14, gy1 + 0.05, 0.10, 3.16, gy2 - 0.05, 1.15) # Tablón rústico inferior
+        add_house_box(L_PB_GAR_FURN, 4,  3.15, gy1 + 0.08, 1.55, 3.17, gy2 - 0.08, 2.15) # Ventanilla superior
+        add_house_box(L_PB_GAR_FURN, 8,  3.15, gy1, 2.28, 3.27, gy1 + 0.08, 2.36)        # Carro rodamiento forja
+    # Hoja guía en transición sobre la curva detrás de la columna A0 (X: 2.85..3.18, Y: 21.32..21.44 m)
+    add_house_box(L_PB_GAR_FURN, 34, 2.85, 21.32, 0.03, 3.18, 21.44, 2.34)
+
+    # B. Piso del Estacionamiento 100% PLANO Y LIBRE DE TOPES EN FILA (Solo líneas guía 2D a ras de piso Z = 0.005 m)
+    for py1, py2 in [(15.20, 20.60), (9.20, 14.60)]:
+        add_house_line(L_PB_GAR_FURN, 8, 0.55, py1, 0.005, 2.65, py1, 0.005)
+        add_house_line(L_PB_GAR_FURN, 8, 0.55, py2, 0.005, 2.65, py2, 0.005)
+        add_house_line(L_PB_GAR_FURN, 8, 0.55, py1, 0.005, 0.55, py2, 0.005)
+        add_house_line(L_PB_GAR_FURN, 8, 2.65, py1, 0.005, 2.65, py2, 0.005)
+
+    # --- 3. FRUTERÍA Y VERDULERÍA CHALET ALPINO (PB_MOBILIARIO_COMERCIAL_3D) ---
+    # A. Doble Entrada Comercial Abierta con SANTAMARÍAS DE CARACOL ENROLLABLES HACIA ARRIBA (Av. 4)
+    for sm_x1, sm_x2 in [(3.65, 5.75), (6.20, 8.80)]:
+        # 1. Carriles guía laterales en "U" de hierro forjado negro en las jambas (Z: 0.00..2.40 m)
+        add_house_box(L_PB_COM_FURN, 8, sm_x1, Y_AV4 - 0.14, 0.00, sm_x1 + 0.07, Y_AV4 - 0.02, 2.40)
+        add_house_box(L_PB_COM_FURN, 8, sm_x2 - 0.07, Y_AV4 - 0.14, 0.00, sm_x2, Y_AV4 - 0.02, 2.40)
+        # 2. Tambor / Caracol Cilíndrico Superior de la Santamaría (Z: 2.08..2.40 m, Y: 21.32..21.66 m)
+        add_house_box(L_PB_COM_FURN, 8,  sm_x1 + 0.04, Y_AV4 - 0.36, 2.10, sm_x2 - 0.04, Y_AV4 - 0.04, 2.38) # Rollo caracol
+        add_house_box(L_PB_COM_FURN, 30, sm_x1 + 0.02, Y_AV4 - 0.38, 2.08, sm_x1 + 0.10, Y_AV4 - 0.02, 2.40) # Plato caracol izq
+        add_house_box(L_PB_COM_FURN, 30, sm_x2 - 0.10, Y_AV4 - 0.38, 2.08, sm_x2 - 0.02, Y_AV4 - 0.02, 2.40) # Plato caracol der
+        # 3. Faldón inferior de lamas metálicas recogido arriba (Z: 1.98..2.10 m) con manillas centrales
+        add_house_box(L_PB_COM_FURN, 8,  sm_x1 + 0.05, Y_AV4 - 0.10, 1.98, sm_x2 - 0.05, Y_AV4 - 0.05, 2.10)
+        sm_mid = 0.5 * (sm_x1 + sm_x2)
+        add_house_box(L_PB_COM_FURN, 34, sm_mid - 0.25, Y_AV4 - 0.13, 2.00, sm_mid + 0.25, Y_AV4 - 0.03, 2.06)
+
+    # B. Islas Exhibidoras de Frutas Abrazando las 4 Columnas Centrales (Eje 2, X = 5.925 m)
+    # Cada columna tiene poste de madera vista + Isla Piramidal de 4 Caras con guacales inclinados de fruta
+    island_configs = [
+        (18.575, 5.15, 6.30, 17.95, 19.20, 1, 2),   # Isla Columna 1 (Frontal: Manzanas rojas y Cambures/Piñas)
+        (16.325, 5.15, 6.70, 15.55, 17.10, 30, 3),  # Isla Columna 2 (Naranjas, Mandarinas y Aguacates)
+        (12.025, 5.15, 6.70, 11.25, 12.80, 1, 3),   # Isla Columna 3 (Fresas, Mangos, Peras y Limones)
+        (8.875,  5.15, 6.70,  8.10,  9.65, 2, 30),  # Isla Columna 4 (Papayas, Melones y Frutas Tropicales)
+    ]
+    for cy_col, ix1, ix2, iy1, iy2, col_f1, col_f2 in island_configs:
+        # 1. Poste central estructural revestido en madera maciza (Timber Frame, 0.38 x 0.38 m)
+        add_house_box(L_PB_TIMBER, 34, 5.735, cy_col - 0.19, Z_P1_FLOOR, 6.115, cy_col + 0.19, 2.65)
+        add_house_box(L_PB_TIMBER, 34, 5.68,  cy_col - 0.25, 2.48,       6.17,  cy_col + 0.25, 2.65) # Capitel
+        # 2. Basamento protector en piedra rústica (Z: 0.00..0.32 m)
+        add_house_box(L_ZOCALO, 8, ix1 + 0.10, iy1 + 0.10, 0.00, ix2 - 0.10, iy2 - 0.10, 0.32)
+        # 3. Primer nivel de bandejas/guacales de roble a 4 caras (Z: 0.32..0.72 m) + Frutas
+        add_house_box(L_PB_COM_FURN, 34, ix1, iy1, 0.32, ix2, iy2, 0.68)
+        add_house_box(L_PB_COM_FURN, col_f1, ix1 + 0.06, iy1 + 0.06, 0.68, ix2 - 0.06, iy2 - 0.06, 0.76)
+        # 4. Segundo nivel piramidal escalonado (Z: 0.76..1.10 m) + Frutas seleccionadas
+        add_house_box(L_PB_COM_FURN, 34, ix1 + 0.22, iy1 + 0.22, 0.76, ix2 - 0.22, iy2 - 0.22, 1.04)
+        add_house_box(L_PB_COM_FURN, col_f2, ix1 + 0.26, iy1 + 0.26, 1.04, ix2 - 0.26, iy2 - 0.26, 1.12)
+        # 5. Pizarra rústica de precios en las 4 caras de la columna (Z: 1.65..1.95 m)
+        add_house_box(L_PB_COM_FURN, 8, 5.70, cy_col - 0.22, 1.65, 6.15, cy_col + 0.22, 1.95)
+
+    # C. Estanterías Murales Inclinadas de Frutería en Muro Oeste (Lado Izquierdo del Salón)
+    # 1. Tramo Principal Norte-Centro (X: 3.45..4.08 m, Y: 9.00..20.60 m)
+    add_house_box(L_ZOCALO, 8, 3.45, 9.00, 0.00, 4.05, 20.60, 0.22)  # Zócalo piedra + nicho patillas/auyamas
+    for lvl_i, (z_sh, f_col) in enumerate([(0.52, 30), (0.98, 1), (1.44, 2)]):
+        add_house_box(L_PB_COM_FURN, 34, 3.46, 9.00, z_sh, 4.05, 20.60, z_sh + 0.10)            # Bandeja roble
+        add_house_box(L_PB_COM_FURN, f_col, 3.52, 9.08, z_sh + 0.10, 4.00, 20.52, z_sh + 0.22)  # Guacales de fruta
+    add_house_box(L_PB_COM_FURN, 34, 3.45, 9.00, 1.92, 4.08, 20.60, 2.12)  # Cenefa superior de roble e iluminación
+    for wy_post in [9.00, 11.30, 13.60, 15.90, 18.20, 20.60]:
+        add_house_box(L_PB_COM_FURN, 8, 3.46, wy_post - 0.04, 0.00, 4.06, wy_post + 0.04, 2.12) # Montantes forja
+
+    # 2. Tramo Sur-Oeste (X: 2.90..3.52 m, Y: 4.10..8.70 m — junto a pared de escaleras)
+    add_house_box(L_ZOCALO, 8, 2.90, 4.10, 0.00, 3.50, 8.70, 0.22)
+    for z_sh, f_col in [(0.52, 3), (0.98, 30), (1.44, 2)]:
+        add_house_box(L_PB_COM_FURN, 34, 2.91, 4.10, z_sh, 3.50, 8.70, z_sh + 0.10)
+        add_house_box(L_PB_COM_FURN, f_col, 2.96, 4.18, z_sh + 0.10, 3.46, 8.62, z_sh + 0.22)
+    add_house_box(L_PB_COM_FURN, 34, 2.90, 4.10, 1.92, 3.52, 8.70, 2.12)
+
+    # D. Estanterías Frescas de Verduras y Hortalizas en Muro Este (X: 8.35..8.98, Y: 6.20..16.50 m, H = 0.95 m bajo ventanas)
+    add_house_box(L_ZOCALO, 8, 8.38, 6.20, 0.00, 8.98, 16.50, 0.25)  # Base piedra
+    add_house_box(L_PB_COM_FURN, 34, 8.35, 6.20, 0.25, 8.98, 16.50, 0.58)  # Primer nivel hortalizas
+    add_house_box(L_PB_COM_FURN, 3,  8.40, 6.28, 0.58, 8.94, 16.42, 0.66)  # Verduras frescas (verde)
+    add_house_box(L_PB_COM_FURN, 34, 8.48, 6.20, 0.66, 8.98, 16.50, 0.88)  # Segundo nivel escalonado
+    add_house_box(L_PB_COM_FURN, 1,  8.52, 6.28, 0.88, 8.95, 16.42, 0.96)  # Tomates / pimentones / zanahorias
+    # Módulos altos de roble en los paños de muro entre ventanas Este (Z: 0.96..2.08 m)
+    for ey1, ey2 in [(8.05, 9.60), (11.90, 13.10), (14.10, 15.45)]:
+        add_house_box(L_PB_COM_FURN, 34, 8.55, ey1, 0.96, 8.98, ey2, 2.08)
+
+    # E. Estantería Rústica de Tubérculos, Raíces y Granel en Muro Sur del Salón (X: 6.00..8.85, Y: 5.55..6.12 m)
+    add_house_box(L_PB_COM_FURN, 34, 6.00, 5.56, 0.00, 8.85, 6.12, 0.55)  # Cajones profundos papas/cebollas/yuca
+    add_house_box(L_PB_COM_FURN, 30, 6.05, 5.60, 0.55, 8.80, 6.08, 0.65)  # Tubérculos a granel
+    add_house_box(L_PB_COM_FURN, 34, 6.00, 5.56, 0.95, 8.85, 6.02, 1.05)  # Repisa media ajos/plátanos
+    add_house_box(L_PB_COM_FURN, 34, 6.00, 5.56, 1.45, 8.85, 5.98, 1.55)  # Repisa alta cestas
+
+    # F. CAJA Y ESTACIÓN DE PESAJE MEJORADA EN "L" (Frontal Este: X: 7.05..8.85, Y: 17.00..19.10 m)
+    # 1. Cuerpo en "L" en mampostería de piedra laja rústica con nichos frontales de impulso
+    add_house_box(L_ZOCALO, 8, 7.05, 18.25, 0.00, 8.75, 18.95, 0.92)  # Tramo frontal principal
+    add_house_box(L_ZOCALO, 8, 7.05, 17.05, 0.00, 7.70, 18.25, 0.92)  # Tramo lateral de pesaje
+    # Nichos de madera en el frente para miel, frutos secos y especias
+    add_house_box(L_PB_COM_FURN, 30, 7.00, 18.35, 0.25, 7.05, 18.90, 0.75)
+    add_house_box(L_PB_COM_FURN, 30, 7.00, 17.15, 0.25, 7.05, 18.15, 0.75)
+    # 2. Encimera ancha de madera maciza de roble + plancha inox de pesaje (Z: 0.92..1.00 m)
+    add_house_box(L_PB_COM_FURN, 34, 6.98, 18.20, 0.92, 8.80, 19.02, 1.00)
+    add_house_box(L_PB_COM_FURN, 34, 6.98, 17.00, 0.92, 7.76, 18.20, 1.00)
+    # 3. Dos Balanzas Electrónicas Digitales con Mástil Visor Doble (Z: 1.00..1.48 m)
+    for by_bal in [17.25, 17.85]:
+        add_house_box(L_PB_COM_FURN, 7, 7.12, by_bal, 1.00, 7.55, by_bal + 0.36, 1.08)        # Plato inox balanza
+        add_house_box(L_PB_COM_FURN, 8, 7.15, by_bal + 0.14, 1.08, 7.22, by_bal + 0.22, 1.48) # Mástil visor
+        add_house_box(L_PB_COM_FURN, 3, 7.10, by_bal + 0.08, 1.36, 7.26, by_bal + 0.28, 1.48) # Pantalla digital peso
+    # 4. Terminal TPV Táctil + Gaveta de cobro (en el encuentro de la L)
+    add_house_box(L_PB_COM_FURN, 7, 7.75, 18.35, 1.00, 8.20, 18.78, 1.30)
+    # 5. Mueble bajo trasero de empaque rápido y rollos de bolsas (X: 8.15..8.92, Y: 17.00..18.05 m)
+    add_house_box(L_PB_COM_FURN, 34, 8.15, 17.00, 0.00, 8.92, 18.05, 0.88)
+
+    # --- 4. BAÑO COMERCIAL Y GRAN ALMACÉN UNIFICADO DE 33,09 m² (PB_MOBILIARIO_OFICINA_3D) ---
+    # A. Baño Comercial de Clientes y Personal (X: 6.00..8.85, Y: 3.65..5.40 m)
+    add_house_box(L_PB_ADM_FURN, 34, 7.20, 4.85, 0.00, 8.20, 5.35, 0.80)  # Mueble suspendido lavamanos
+    add_house_box(L_PB_ADM_FURN, 8,  7.20, 4.85, 0.80, 8.20, 5.35, 0.85)  # Mesón pizarra
+    add_house_box(L_PB_ADM_FURN, 8,  7.50, 4.95, 0.85, 7.90, 5.25, 0.98)  # Lavamanos piedra vessel
+    add_house_box(L_PB_ADM_FURN, 8,  7.30, 5.36, 1.05, 8.10, 5.39, 1.90)  # Espejo forja negro
+    add_house_box(L_PB_ADM_FURN, 7,  6.15, 3.75, 0.00, 6.75, 4.35, 0.42)  # Inodoro
+    add_house_box(L_PB_ADM_FURN, 7,  6.15, 3.75, 0.42, 6.40, 4.35, 0.80)
+    add_house_box(L_PB_ADM_FURN, 7,  6.15, 4.75, 0.45, 6.45, 5.05, 0.95)  # Urinario
+    add_house_box(L_PB_ADM_FURN, 8,  6.05, 4.60, 0.30, 6.55, 4.65, 1.35)  # Mampara privacidad
+
+    # B. GRAN ALMACÉN UNIFICADO DE FRUTERÍA Y VERDULERÍA (X: 0.30..9.00, Y: 0.15..3.50 m + Bajo Escalera = 33,09 m²)
+    # (Se eliminó la zona de gerencia uniéndola al almacén con Cámara Frigorífica y Zona de Lavado/Selección)
+    # 1. Batería Sur de Racks Pesados (Muro posterior, Y: 0.20..0.68 m):
+    for rz_w in [0.45, 0.90, 1.35, 1.80, 2.25]:
+        add_house_box(L_PB_ADM_FURN, 34, 0.35, 0.20, rz_w, 2.65, 0.68, rz_w + 0.04)  # Tramo suroeste
+        add_house_box(L_PB_ADM_FURN, 34, 3.20, 0.20, rz_w, 6.10, 0.68, rz_w + 0.04)  # Tramo central-sur
+    for rx_p in [(0.35, 0.20), (1.50, 0.20), (2.65, 0.20), (3.20, 0.20), (4.65, 0.20), (6.10, 0.20)]:
+        add_house_box(L_PB_ADM_FURN, 8, rx_p[0] - 0.04, rx_p[1] - 0.04, 0.00, rx_p[0] + 0.04, rx_p[1] + 0.04, 2.35)
+
+    # 2. Batería Oeste (Muro medianero, X: 0.32..0.80 m, Y: 0.68..4.20 m): estantería de sacos y guacales
+    for rz_w in [0.45, 0.90, 1.35, 1.80, 2.25]:
+        add_house_box(L_PB_ADM_FURN, 34, 0.32, 0.68, rz_w, 0.78, 4.20, rz_w + 0.04)
+    for ry_p in [0.68, 1.85, 3.05, 4.20]:
+        add_house_box(L_PB_ADM_FURN, 8, 0.32, ry_p - 0.04, 0.00, 0.78, ry_p + 0.04, 2.35)
+
+    # 3. Batería Bajo Escalera (Alcoba bajo P2 escalera, X: 1.45..2.70, Y: 4.40..5.70 m): estantes escalonados
+    for rz_st, y_st_end in [(0.45, 5.70), (0.90, 5.50), (1.35, 5.10), (1.80, 4.70)]:
+        add_house_box(L_PB_ADM_FURN, 34, 1.45, 4.40, rz_st, 2.70, y_st_end, rz_st + 0.04)
+    for px_st in [1.45, 2.70]:
+        add_house_box(L_PB_ADM_FURN, 8, px_st - 0.04, 4.40, 0.00, px_st + 0.04, 4.46, 2.20)
+        add_house_box(L_PB_ADM_FURN, 8, px_st - 0.04, 5.70, 0.00, px_st + 0.04, 5.76, 1.05)
+
+    # 4. Batería Norte Central (X: 5.35..7.40 m, Y: 2.95..3.45 m): racks junto a puerta de carga
+    for rz_w in [0.45, 0.90, 1.35, 1.80, 2.25]:
+        add_house_box(L_PB_ADM_FURN, 34, 5.35, 2.95, rz_w, 7.40, 3.45, rz_w + 0.04)
+    for rx_p in [(5.35, 3.45), (6.40, 3.45), (7.40, 3.45)]:
+        add_house_box(L_PB_ADM_FURN, 8, rx_p[0] - 0.04, rx_p[1] - 0.04, 0.00, rx_p[0] + 0.04, rx_p[1] + 0.04, 2.35)
+
+    # 5. Cámara Frigorífica / Cuarto Frío en el Ala Este Unificada (X: 6.35..8.92, Y: 0.20..1.65, Z: 0.00..2.40 m)
+    add_house_box(L_PB_ADM_FURN, 5,  6.35, 0.20, 0.00, 8.92, 1.65, 2.40)  # Cabina isotérmica cuarto frío
+    add_house_box(L_PB_ADM_FURN, 7,  6.85, 1.63, 0.05, 7.85, 1.70, 2.10)  # Puerta corrediza hermética inox
+    add_house_box(L_PB_ADM_FURN, 8,  7.95, 1.64, 1.45, 8.20, 1.69, 1.70)  # Termostato digital
+
+    # 6. Mesón Industrial de Lavado, Selección y Empaque en Ala Este (X: 7.85..8.92, Y: 1.85..3.42, Z: 0.00..0.90 m)
+    add_house_box(L_PB_ADM_FURN, 34, 7.85, 1.85, 0.00, 8.92, 3.42, 0.85)  # Estructura mesón
+    add_house_box(L_PB_ADM_FURN, 7,  7.83, 1.83, 0.85, 8.94, 3.44, 0.90)  # Tope acero inoxidable
+    add_house_box(L_PB_ADM_FURN, 8,  8.00, 2.10, 0.86, 8.75, 2.85, 0.94)  # Bacha doble lavado verduras
 
     # --- COLUMNAS PLANTA BAJA Y ÚLTIMO PISO (100% CONSERVADAS EN SU POSICIÓN ORIGINAL) ---
     L_P2_COL    = "P2_COLUMNAS_3D"
@@ -1204,12 +1388,17 @@ def build_nuevo_proyecto():
         add_house_text("SOTANO_ROTULOS", 4, txt, rx, ry, rz, 0.16)
 
     p1_labels = [
-        ("P1: GRAN LOCAL COMERCIAL (5,55 x 16,16m = 89,7 m2)", 3.80, 13.50, 0.05),
-        ("P1: GARAJE DOBLE (COL. INTACTAS + BOLSILLOS 3,00m)", 0.45, 15.20, 0.05),
-        ("P1: Bano Local (3,00 x 1,75m)", 6.30, 4.40, 0.05),
-        ("P1: Deposito Comercial (3,35 x 3,35m)", 3.10, 1.80, 0.05),
-        ("P1 NUEVO: Oficina Privada Gerencia (2,60 x 3,35m)", 6.50, 1.80, 0.05),
-        ("P1: Area Apoyo", 0.50, 2.50, 0.05),
+        ("P1: FRUTERIA Y VERDULERIA CHALET ALPINO (88,9 m2)", 3.80, 14.50, 0.05),
+        ("P1: ENTRADAS CON SANTAMARIA DE CARACOL (ENROLLABLE ARRIBA)", 4.00, 20.90, 0.05),
+        ("P1: CAJA & ESTACION DE PESAJE (2 BALANZAS + TPV)", 6.85, 18.20, 0.05),
+        ("P1: ISLAS CENTRALES DE FRUTAS EN COLUMNAS", 4.95, 13.50, 0.05),
+        ("P1: ESTANTES MURALES DE FRUTAS Y HORTALIZAS", 4.10, 7.50, 0.05),
+        ("P1: ESTACIONAMIENTO FLUIDO SIN TOPES (2 AUTOS, 3,00m)", 0.45, 16.50, 0.05),
+        ("P1: PORTON CORREDIZO SOBRE RIEL LATERAL DERECHO", 0.55, 20.80, 0.05),
+        ("P1: ACCESO DIRECTO Y ABIERTO A ESCALERAS (SOTANO / P2)", 0.45, 8.20, 0.05),
+        ("P1: BANO COMERCIAL RUSTICO (3,00 x 1,90m)", 6.30, 4.40, 0.05),
+        ("P1: GRAN ALMACEN UNIFICADO DE FRUTERIA (8,70 x 3,35m = 33,1 m2)", 1.50, 1.80, 0.05),
+        ("P1: CUARTO FRIO + ZONA DE LAVADO Y SELECCION", 6.35, 1.80, 0.05),
     ]
     for txt, rx, ry, rz in p1_labels:
         add_house_text("ROTULOS_TEXTO", 2, txt, rx, ry, rz, 0.19)
@@ -1595,6 +1784,90 @@ def build_nuevo_proyecto():
     add_text(L_FAC, 5, "Buhardilla Tanque 1.000L", FX + 0.50, FY + 7.72, 0.0, 0.15)
     add_text(L_FAC, 3, "Alero Propio Der. 0,95m", FX + 8.60, FY + 6.20, 0.0, 0.18)
 
+    # Planta Técnica 2D de Planta Baja (Estacionamiento Fluido + Frutería y Verdulería + Gran Almacén Unificado)
+    BX = 42.00
+    BY = 2.00
+    L_PB_2D = "PLANTA_BAJA_2D"
+    add_text(L_PB_2D, 2, "PLANTA BAJA CHALET: FRUTERIA Y VERDULERIA + ESTACIONAMIENTO FLUIDO (9,00 x 21,71m)", BX - 0.10, BY - 0.8, 0.0, 0.25)
+    add_rect_2d(L_PB_2D, 8, BX + 0.00, BY + 0.00, BX + 0.15, BY + Y_AV4)  # Medianera Vecino Izquierdo (Cero Invasión)
+    add_rect_2d(L_PB_2D, 7, BX + 0.15, BY + 0.00, BX + 9.15, BY + Y_AV4)  # Perímetro Planta Baja
+    # Muro divisorio garaje / comercial con ACCESO ABIERTO A ESCALERAS en X = 0.30..2.75
+    add_rect_2d(L_PB_2D, 7, BX + 2.75, BY + 3.50, BX + 2.90, BY + 8.95)
+    add_rect_2d(L_PB_2D, 7, BX + 3.30, BY + 8.80, BX + 3.45, BY + Y_AV4 - 0.15)
+    add_rect_2d(L_PB_2D, 7, BX + 2.75, BY + 8.80, BX + 3.45, BY + 8.95)
+    # Escaleras Sótano y P2 abiertas hacia el estacionamiento + Cierres ciegos hacia el Almacén
+    add_rect_2d(L_PB_2D, 7, BX + 0.30, BY + 4.40, BX + 2.75, BY + 7.35)
+    add_line(L_PB_2D, 7, BX + 0.30, BY + 4.25, 0.0, BX + 1.40, BY + 4.25, 0.0)  # Cierre ciego sur escalera sótano
+    add_line(L_PB_2D, 7, BX + 1.40, BY + 5.80, 0.0, BX + 2.75, BY + 5.80, 0.0)  # Cierre ciego bajo escalera P2
+    for st_i in range(13):
+        st_y = BY + 4.45 + st_i * ((7.40 - 4.45) / 12.0)
+        add_line(L_PB_2D, 3, BX + 0.30, st_y, 0.0, BX + 1.40, st_y, 0.0)
+    for st_p2 in range(15):
+        st2_y = BY + 7.35 - st_p2 * ((7.35 - 4.40) / 14.0)
+        add_line(L_PB_2D, 7, BX + 1.55, st2_y, 0.0, BX + 2.65, st2_y, 0.0)
+    # Fachada Av. 4: Portón Corredizo sobre Riel Lateral + 2 Entradas con Santamaría de Caracol
+    add_line(L_PB_2D, 8,  BX + 0.40, BY + Y_AV4 - 0.16, 0.0, BX + 3.26, BY + Y_AV4 - 0.16, 0.0)  # Riel frontal
+    add_line(L_PB_2D, 8,  BX + 3.22, BY + 18.90, 0.0, BX + 3.22, BY + Y_AV4 - 0.16, 0.0)         # Riel lateral derecho
+    add_rect_2d(L_PB_2D, 34, BX + 3.16, BY + 19.00, BX + 3.28, BY + 21.35)  # Hojas del portón dobladas en muro derecho
+    add_rect_2d(L_PB_2D, 8,  BX + 3.65, BY + Y_AV4 - 0.36, BX + 5.75, BY + Y_AV4 - 0.04)  # Caracol Santamaría 1
+    add_rect_2d(L_PB_2D, 8,  BX + 6.20, BY + Y_AV4 - 0.36, BX + 8.80, BY + Y_AV4 - 0.04)  # Caracol Santamaría 2
+    add_line(L_PB_2D, 30, BX + 3.55, BY + Y_AV4 + 0.15, 0.0, BX + 8.90, BY + Y_AV4 + 0.15, 0.0) # Marquesina
+    # Plazas de estacionamiento (100% planas sin topes en fila)
+    add_rect_2d(L_PB_2D, 8, BX + 0.55, BY + 15.20, BX + 2.65, BY + 20.60)  # Plaza 1 Frontal
+    add_rect_2d(L_PB_2D, 8, BX + 0.55, BY + 9.20,  BX + 2.65, BY + 14.60)  # Plaza 2 Trasera
+    # Frutería y Verdulería: Caja y Estación de Pesaje Mejorada en L
+    add_rect_2d(L_PB_2D, 8,  BX + 7.05, BY + 18.25, BX + 8.75, BY + 18.95) # Tramo frontal Caja
+    add_rect_2d(L_PB_2D, 8,  BX + 7.05, BY + 17.05, BX + 7.70, BY + 18.25) # Tramo lateral Pesaje (2 Balanzas)
+    add_rect_2d(L_PB_2D, 3,  BX + 7.12, BY + 17.25, BX + 7.55, BY + 17.61) # Balanza 1
+    add_rect_2d(L_PB_2D, 3,  BX + 7.12, BY + 17.85, BX + 7.55, BY + 18.21) # Balanza 2
+    add_rect_2d(L_PB_2D, 34, BX + 8.15, BY + 17.00, BX + 8.92, BY + 18.05) # Mueble empaque trasero
+    # 4 Islas Piramidales de Frutas en las Columnas Centrales (Eje 2, X = 5.925 m)
+    add_rect_2d(L_PB_2D, 30, BX + 5.15, BY + 17.95, BX + 6.30, BY + 19.20) # Isla Frutas Columna 1
+    add_rect_2d(L_PB_2D, 30, BX + 5.15, BY + 15.55, BX + 6.70, BY + 17.10) # Isla Frutas Columna 2
+    add_rect_2d(L_PB_2D, 30, BX + 5.15, BY + 11.25, BX + 6.70, BY + 12.80) # Isla Frutas Columna 3
+    add_rect_2d(L_PB_2D, 30, BX + 5.15, BY + 8.10,  BX + 6.70, BY + 9.65)  # Isla Frutas Columna 4
+    # Estanterías Murales de Frutas y Verduras en todas las paredes
+    add_rect_2d(L_PB_2D, 34, BX + 3.45, BY + 9.00,  BX + 4.05, BY + 20.60) # Estantes Frutas Muro Oeste (Norte)
+    add_rect_2d(L_PB_2D, 34, BX + 2.90, BY + 4.10,  BX + 3.50, BY + 8.70)  # Estantes Frutas Muro Oeste (Sur)
+    add_rect_2d(L_PB_2D, 3,  BX + 8.35, BY + 6.20,  BX + 8.98, BY + 16.50) # Estantes Verduras Muro Este
+    add_rect_2d(L_PB_2D, 34, BX + 6.00, BY + 5.56,  BX + 8.85, BY + 6.12)  # Estantes Tubérculos Muro Sur
+    # Columnas estructurales de PB intactas
+    for cx_pb, cy_pb in existing_and_new_cols:
+        add_rect_2d(L_PB_2D, 1, BX + cx_pb - 0.125, BY + cy_pb - 0.125, BX + cx_pb + 0.125, BY + cy_pb + 0.125)
+    # Baño Comercial + Gran Almacén Unificado de Pared a Pared (33,09 m2, sin Gerencia)
+    add_rect_2d(L_PB_2D, 7, BX + 5.85, BY + 3.50, BX + 9.00, BY + 5.55)   # Baño Comercial
+    add_line(L_PB_2D, 34, BX + 5.92, BY + 3.95, 0.0, BX + 5.92, BY + 4.75, 0.0) # Puerta baño
+    add_rect_2d(L_PB_2D, 34, BX + 7.20, BY + 4.85, BX + 8.20, BY + 5.35)  # Mueble lavamanos
+    add_rect_2d(L_PB_2D, 7,  BX + 6.15, BY + 3.75, BX + 6.75, BY + 4.35)  # Inodoro
+    add_rect_2d(L_PB_2D, 7,  BX + 6.15, BY + 4.75, BX + 6.45, BY + 5.05)  # Urinario
+    add_rect_2d(L_PB_2D, 7, BX + 0.30, BY + 0.15, BX + 9.00, BY + 3.50)   # Gran Almacén Unificado (8,70 x 3,35 m)
+    add_rect_2d(L_PB_2D, 7, BX + 1.40, BY + 3.50, BX + 2.75, BY + 5.80)   # Alcoba bajo escalera P2 integrada
+    add_line(L_PB_2D, 34, BX + 4.00, BY + 3.57, 0.0, BX + 5.20, BY + 3.57, 0.0) # Puerta doble carga desde frutería
+    # Equipamiento del Gran Almacén: Racks + Cuarto Frío + Mesón Lavado
+    add_rect_2d(L_PB_2D, 34, BX + 0.35, BY + 0.20, BX + 2.65, BY + 0.68)  # Racks sur oeste
+    add_rect_2d(L_PB_2D, 34, BX + 3.20, BY + 0.20, BX + 6.10, BY + 0.68)  # Racks sur centro
+    add_rect_2d(L_PB_2D, 34, BX + 0.32, BY + 0.68, BX + 0.78, BY + 4.20)  # Racks muro oeste
+    add_rect_2d(L_PB_2D, 34, BX + 1.45, BY + 4.40, BX + 2.70, BY + 5.70)  # Estantes bajo escalera
+    add_rect_2d(L_PB_2D, 34, BX + 5.35, BY + 2.95, BX + 7.40, BY + 3.45)  # Racks muro norte
+    add_rect_2d(L_PB_2D, 5,  BX + 6.35, BY + 0.20, BX + 8.92, BY + 1.65)  # Cámara Frigorífica / Cuarto Frío
+    add_rect_2d(L_PB_2D, 7,  BX + 7.85, BY + 1.85, BX + 8.92, BY + 3.42)  # Mesón Inox Lavado y Selección
+    # Textos explicativos en lámina 2D
+    add_text(L_PB_2D, 2, "Porton Riel Lateral", BX + 0.45, BY + 21.80, 0.0, 0.14)
+    add_text(L_PB_2D, 2, "Santamaria Caracol 1", BX + 3.70, BY + 21.80, 0.0, 0.14)
+    add_text(L_PB_2D, 2, "Santamaria Caracol 2", BX + 6.35, BY + 21.80, 0.0, 0.14)
+    add_text(L_PB_2D, 2, "Garaje Sin Topes (3,00m)", BX + 0.45, BY + 15.00, 0.0, 0.15)
+    add_text(L_PB_2D, 2, "Plaza 1 Frontal", BX + 0.70, BY + 17.50, 0.0, 0.15)
+    add_text(L_PB_2D, 2, "Plaza 2 Trasera", BX + 0.70, BY + 11.50, 0.0, 0.15)
+    add_text(L_PB_2D, 3, "Paso Libre a Escaleras", BX + 0.42, BY + 8.15, 0.0, 0.13)
+    add_text(L_PB_2D, 2, "Caja + 2 Balanzas", BX + 7.10, BY + 18.50, 0.0, 0.14)
+    add_text(L_PB_2D, 2, "Islas Frutas Columnas", BX + 5.18, BY + 14.00, 0.0, 0.15)
+    add_text(L_PB_2D, 2, "Estantes Frutas Oeste", BX + 3.50, BY + 10.20, 0.0, 0.13)
+    add_text(L_PB_2D, 2, "Verduras Frescas Este", BX + 7.10, BY + 10.20, 0.0, 0.13)
+    add_text(L_PB_2D, 2, "Bano Comercial", BX + 6.30, BY + 4.10, 0.0, 0.15)
+    add_text(L_PB_2D, 2, "GRAN ALMACEN UNIFICADO (33,1m2)", BX + 1.20, BY + 1.80, 0.0, 0.16)
+    add_text(L_PB_2D, 5, "Cuarto Frio", BX + 6.80, BY + 0.85, 0.0, 0.14)
+    add_text(L_PB_2D, 7, "Lavado/Seleccion", BX + 6.50, BY + 2.50, 0.0, 0.13)
+
     # Levantamiento Poligonal UTM intacto
     UX = 55.00
     UY = 0.00
@@ -1659,6 +1932,10 @@ def build_nuevo_proyecto():
         (L_P1_INT, 7),
         (L_P1_COL, 1),
         (L_ZOCALO, 8),
+        (L_PB_TIMBER, 34),
+        (L_PB_COM_FURN, 30),
+        (L_PB_GAR_FURN, 34),
+        (L_PB_ADM_FURN, 34),
         ("ESCALERA_3D", 7),
         ("ESCALERA_2D", 7),
         ("ROTULOS_TEXTO", 2),
@@ -1685,6 +1962,7 @@ def build_nuevo_proyecto():
         (L_P2_2D, 6),
         (L_TANK_2D, 5),
         (L_FAC, 3),
+        (L_PB_2D, 2),
         (L_UTM, 7),
     ]
 
