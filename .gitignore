@@ -2,8 +2,11 @@
 *.exe
 *.msi
 
-# Archivos de respaldo y temporales de CAD / OpenCADStudio / Blender
+# Archivos de respaldo y temporales de CAD / OpenCADStudio / Blender / FreeCAD
 *.bak
+*.FCBak
+*.FCStd1
+*.FCStd2
 *.lock
 *.sv$
 *.tmp
